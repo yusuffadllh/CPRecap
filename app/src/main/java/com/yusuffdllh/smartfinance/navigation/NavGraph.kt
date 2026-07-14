@@ -29,7 +29,14 @@ fun NavGraph() {
         }
 
         composable(Screen.Onboarding.route) {
-            OnboardingScreen(navController)
+            OnboardingScreen(
+                onContinue = {
+                    navController.navigate(Screen.Login.route)
+                },
+                onSkip = {
+                    navController.navigate(Screen.Login.route)
+                }
+            )
         }
 
         composable(Screen.Login.route) {
@@ -54,6 +61,8 @@ fun NavGraph() {
 
         composable(Screen.Profile.route) {
             ProfileScreen()
+
+
         }
 
     }

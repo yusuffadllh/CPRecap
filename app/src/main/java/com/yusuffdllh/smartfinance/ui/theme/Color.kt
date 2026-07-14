@@ -22,6 +22,7 @@ val Danger = Color(0xFFEF4444)
 
 val Background = Color(0xFF0F172A)
 val Surface = Color(0xFF1E293B)
+val Surface2 = Color(0xFF334155)
 val SurfaceVariant = Color(0xFF334155)
 
 /* ===========================
