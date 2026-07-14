@@ -12,9 +12,21 @@ import com.yusuffdllh.smartfinance.screen.dashboard.components.DashboardHeader
 import com.yusuffdllh.smartfinance.screen.dashboard.components.IncomeExpenseCard
 import com.yusuffdllh.smartfinance.screen.dashboard.components.SummaryCard
 import com.yusuffdllh.smartfinance.ui.theme.Background
+import androidx.compose.material3.Text
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import com.yusuffdllh.smartfinance.ui.theme.TextPrimary
+import com.yusuffdllh.smartfinance.screen.dashboard.components.RecentTransactionCard
+import com.yusuffdllh.smartfinance.screen.dashboard.components.BottomNavigationBar
+import androidx.navigation.NavController
+import com.yusuffdllh.smartfinance.navigation.Screen
 
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(
+
+    navController: NavController
+
+) {
 
     Column(
 
@@ -76,11 +88,56 @@ fun DashboardScreen() {
 
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text = "Ringkasan Bulan Ini",
+            color = TextPrimary,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         SummaryCard()
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(24.dp))
+
+        RecentTransactionCard()
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        BottomNavigationBar(
+
+            selected = "home",
+
+            onHomeClick = {
+                // sudah di dashboard
+            },
+
+            onTransactionClick = {
+
+                navController.navigate(Screen.Transaction.route)
+
+            },
+
+            onAddClick = {
+
+                navController.navigate(Screen.AddTransaction.route)
+
+            },
+
+            onAnalyticsClick = {
+
+                navController.navigate(Screen.Analytics.route)
+
+            },
+
+            onProfileClick = {
+
+                navController.navigate(Screen.Profile.route)
+
+            }
+
+        )
 
     }
 

@@ -29,46 +29,6 @@ fun BalanceCard(
 
 ) {
 
-    Spacer(modifier = Modifier.height(16.dp))
-
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-
-        Box(
-            modifier = Modifier.weight(1f)
-        ) {
-
-            IncomeExpenseCard(
-
-                title = "Pemasukan",
-
-                amount = "Rp6.800.000",
-
-                income = true
-
-            )
-
-        }
-
-        Box(
-            modifier = Modifier.weight(1f)
-        ) {
-
-            IncomeExpenseCard(
-
-                title = "Pengeluaran",
-
-                amount = "Rp3.250.000",
-
-                income = false
-
-            )
-
-        }
-
-    }
-
     Card(
 
         modifier = Modifier.fillMaxWidth(),

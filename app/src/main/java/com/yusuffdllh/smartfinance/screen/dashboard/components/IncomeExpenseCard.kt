@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.yusuffdllh.smartfinance.ui.theme.*
+import androidx.compose.ui.draw.clip
 
 @Composable
 fun IncomeExpenseCard(
@@ -44,86 +45,58 @@ fun IncomeExpenseCard(
             Danger
 
     Card(
-
-        modifier = Modifier.fillMaxWidth(),
-
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(155.dp),
         colors = CardDefaults.cardColors(
-
             containerColor = Surface
-
         ),
-
-        shape = RoundedCornerShape(20.dp)
-
+        shape = RoundedCornerShape(22.dp)
     ) {
 
-        Row(
-
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(18.dp),
-
-            verticalAlignment = Alignment.CenterVertically
-
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
 
             Box(
-
                 modifier = Modifier
-                    .size(48.dp)
+                    .size(54.dp)
+                    .clip(CircleShape)
                     .background(
-                        color.copy(alpha = .18f),
-                        CircleShape
+                        if (income)
+                            Primary.copy(.18f)
+                        else
+                            Danger.copy(.18f)
                     ),
-
                 contentAlignment = Alignment.Center
-
             ) {
 
                 Icon(
-
                     imageVector = icon,
-
                     contentDescription = null,
-
                     tint = color
-
                 )
 
             }
-
-            Spacer(modifier = Modifier.width(14.dp))
 
             Column {
 
                 Text(
-
                     text = title,
-
-                    color = TextSecondary,
-
-                    style = MaterialTheme.typography.bodyMedium
-
+                    color = TextSecondary
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(6.dp))
 
                 Text(
-
                     text = amount,
-
                     color = TextPrimary,
-
-                    style = MaterialTheme.typography.titleLarge,
-
                     fontWeight = FontWeight.Bold
-
                 )
-
             }
-
         }
-
     }
-
 }

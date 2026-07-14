@@ -13,6 +13,7 @@ import com.yusuffdllh.smartfinance.screen.onboarding.OnboardingScreen
 import com.yusuffdllh.smartfinance.screen.profile.ProfileScreen
 import com.yusuffdllh.smartfinance.screen.splash.SplashScreen
 import com.yusuffdllh.smartfinance.screen.transaction.TransactionListScreen
+import com.yusuffdllh.smartfinance.screen.transaction.AddTransactionScreen
 
 @Composable
 fun NavGraph() {
@@ -44,11 +45,15 @@ fun NavGraph() {
         }
 
         composable(Screen.Dashboard.route) {
-            DashboardScreen()
+            DashboardScreen(navController)
         }
 
         composable(Screen.Transaction.route) {
             TransactionListScreen()
+        }
+
+        composable(Screen.AddTransaction.route) {
+            AddTransactionScreen()
         }
 
         composable(Screen.Budget.route) {

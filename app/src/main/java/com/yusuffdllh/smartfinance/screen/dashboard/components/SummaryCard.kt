@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.yusuffdllh.smartfinance.ui.theme.*
 
+
 @Composable
 fun SummaryCard() {
 
@@ -44,7 +45,7 @@ fun SummaryCard() {
 
                 Box(
                     modifier = Modifier
-                        .size(150.dp)
+                        .size(170.dp)
                         .background(
                             Color(0xFF2563EB),
                             CircleShape
@@ -53,7 +54,7 @@ fun SummaryCard() {
 
                 Box(
                     modifier = Modifier
-                        .size(95.dp)
+                        .size(90.dp)
                         .background(
                             Surface,
                             CircleShape
