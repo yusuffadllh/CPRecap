@@ -2,7 +2,6 @@ package com.yusuffdllh.smartfinance.screen.dashboard.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
@@ -15,88 +14,120 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.yusuffdllh.smartfinance.ui.theme.*
-import androidx.compose.ui.draw.clip
 
 @Composable
 fun IncomeExpenseCard(
 
     title: String,
 
-    amount: String,
+    amount: Long,
 
     income: Boolean
 
 ) {
 
-    val icon =
-        if (income)
-            Icons.Default.ArrowDownward
-        else
-            Icons.Default.ArrowUpward
-
-    val color =
-        if (income)
-            Primary
-        else
-            Danger
-
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(155.dp),
+
+        modifier = Modifier.fillMaxWidth(),
+
+        shape = RoundedCornerShape(20.dp),
+
         colors = CardDefaults.cardColors(
+
             containerColor = Surface
-        ),
-        shape = RoundedCornerShape(22.dp)
+
+        )
+
     ) {
 
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(18.dp),
-            verticalArrangement = Arrangement.SpaceBetween
+
+            modifier = Modifier.padding(18.dp)
+
         ) {
 
             Box(
+
                 modifier = Modifier
-                    .size(54.dp)
-                    .clip(CircleShape)
+                    .size(42.dp)
+                    .clip(RoundedCornerShape(12.dp))
                     .background(
                         if (income)
-                            Primary.copy(.18f)
+                            Primary.copy(alpha = .15f)
                         else
-                            Danger.copy(.18f)
+                            Danger.copy(alpha = .15f)
                     ),
+
                 contentAlignment = Alignment.Center
+
             ) {
 
                 Icon(
-                    imageVector = icon,
+
+                    imageVector = if (income)
+                        Icons.Default.ArrowDownward
+                    else
+                        Icons.Default.ArrowUpward,
+
                     contentDescription = null,
-                    tint = color
+
+                    tint = if (income)
+                        Primary
+                    else
+                        Danger
+
                 )
 
             }
 
-            Column {
+            Spacer(modifier = Modifier.height(16.dp))
 
-                Text(
-                    text = title,
-                    color = TextSecondary
-                )
+            Text(
 
-                Spacer(modifier = Modifier.height(6.dp))
+                text = title,
 
-                Text(
-                    text = amount,
-                    color = TextPrimary,
-                    fontWeight = FontWeight.Bold
-                )
-            }
+                color = TextSecondary,
+
+                style = MaterialTheme.typography.bodyMedium
+
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+
+                text = "Rp${formatCurrency(amount)}",
+
+                color = TextPrimary,
+
+                fontSize = 22.sp,
+
+                fontWeight = FontWeight.Bold
+
+            )
+
         }
+
     }
+
+}
+
+private fun formatCurrency(
+
+    value: Long
+
+): String {
+
+    return value
+        .toString()
+        .reversed()
+        .chunked(3)
+        .joinToString(".")
+        .reversed()
+
 }

@@ -1,130 +1,296 @@
 package com.yusuffdllh.smartfinance.screen.dashboard.components
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.yusuffdllh.smartfinance.data.repository.TransactionItemModel
 import com.yusuffdllh.smartfinance.ui.theme.*
 
-
 @Composable
-fun SummaryCard() {
+fun SummaryCard(
+
+    transactions: List<TransactionItemModel>
+
+) {
+
+    val expenseList = transactions.filter {
+
+        !it.income
+
+    }
+
+    val totalExpense = expenseList.sumOf {
+
+        it.amount
+            .replace("-Rp", "")
+            .replace(".", "")
+            .toLong()
+
+    }
+
+    val food = expenseList
+        .filter {
+
+            it.category == "Makanan"
+
+        }
+        .sumOf {
+
+            it.amount
+                .replace("-Rp", "")
+                .replace(".", "")
+                .toLong()
+
+        }
+
+    val transport = expenseList
+        .filter {
+
+            it.category == "Transportasi"
+
+        }
+        .sumOf {
+
+            it.amount
+                .replace("-Rp", "")
+                .replace(".", "")
+                .toLong()
+
+        }
+
+    val shopping = expenseList
+        .filter {
+
+            it.category == "Belanja"
+
+        }
+        .sumOf {
+
+            it.amount
+                .replace("-Rp", "")
+                .replace(".", "")
+                .toLong()
+
+        }
+
+    val other = totalExpense - food - transport - shopping
+
+    val chartData = listOf(
+
+        food to ChartGreen,
+
+        transport to ChartBlue,
+
+        shopping to ChartPurple,
+
+        other to ChartOrange
+
+    )
 
     Card(
+
         modifier = Modifier.fillMaxWidth(),
+
+        shape = RoundedCornerShape(24.dp),
+
         colors = CardDefaults.cardColors(
+
             containerColor = Surface
-        ),
-        shape = RoundedCornerShape(22.dp)
+
+        )
+
     ) {
 
         Row(
+
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(20.dp),
 
-            horizontalArrangement = Arrangement.SpaceBetween
+            verticalAlignment = Alignment.CenterVertically
+
         ) {
 
-            //----------------------------------
-            // Donut Placeholder
-            //----------------------------------
+            DonutChart(
 
-            Box(
-                modifier = Modifier.size(170.dp),
-                contentAlignment = Alignment.Center
-            ) {
+                values = chartData,
 
-                Box(
-                    modifier = Modifier
-                        .size(170.dp)
-                        .background(
-                            Color(0xFF2563EB),
-                            CircleShape
-                        )
-                )
+                modifier = Modifier.size(150.dp)
 
-                Box(
-                    modifier = Modifier
-                        .size(90.dp)
-                        .background(
-                            Surface,
-                            CircleShape
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
+            )
 
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-
-                        Text(
-                            "Total",
-                            color = TextSecondary
-                        )
-
-                        Text(
-                            "Rp3.250.000",
-                            color = TextPrimary,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                    }
-
-                }
-
-            }
-
-            //----------------------------------
-            // Legend
-            //----------------------------------
+            Spacer(modifier = Modifier.width(24.dp))
 
             Column(
-                verticalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.height(170.dp)
+
+                modifier = Modifier.weight(1f),
+
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+
             ) {
 
-                CategoryItem(
+                LegendItem(
+
                     "Makanan",
-                    "35%",
-                    Primary
+
+                    ChartGreen
+
                 )
 
-                CategoryItem(
+                LegendItem(
+
                     "Transportasi",
-                    "20%",
-                    Color(0xFF3B82F6)
+
+                    ChartBlue
+
                 )
 
-                CategoryItem(
+                LegendItem(
+
                     "Belanja",
-                    "18%",
-                    Color(0xFF8B5CF6)
+
+                    ChartPurple
+
                 )
 
-                CategoryItem(
-                    "Tagihan",
-                    "15%",
-                    Color(0xFFF59E0B)
-                )
+                LegendItem(
 
-                CategoryItem(
-                    "Hiburan",
-                    "12%",
-                    Danger
+                    "Lainnya",
+
+                    ChartOrange
+
                 )
 
             }
 
         }
+
+    }
+
+}
+
+@Composable
+private fun DonutChart(
+
+    values: List<Pair<Long, androidx.compose.ui.graphics.Color>>,
+
+    modifier: Modifier = Modifier
+
+) {
+
+    val total = values.sumOf {
+
+        it.first
+
+    }.coerceAtLeast(1)
+
+    Canvas(
+
+        modifier = modifier
+
+    ) {
+
+        var startAngle = -90f
+
+        values.forEach { (value, color) ->
+
+            val sweep = value.toFloat() / total * 360f
+
+            drawArc(
+
+                color = color,
+
+                startAngle = startAngle,
+
+                sweepAngle = sweep - 2f,
+
+                useCenter = false,
+
+                topLeft = Offset.Zero,
+
+                size = Size(size.width, size.height),
+
+                style = Stroke(
+
+                    width = 26.dp.toPx(),
+
+                    cap = StrokeCap.Round
+
+                )
+
+            )
+
+            startAngle += sweep
+
+        }
+
+    }
+
+}
+
+@Composable
+private fun LegendItem(
+
+    title: String,
+
+    color: androidx.compose.ui.graphics.Color
+
+) {
+
+    Row(
+
+        verticalAlignment = Alignment.CenterVertically
+
+    ) {
+
+        Spacer(
+
+            modifier = Modifier
+                .size(12.dp)
+                .padding(end = 4.dp)
+
+        )
+
+        Canvas(
+
+            modifier = Modifier.size(12.dp)
+
+        ) {
+
+            drawCircle(
+
+                color = color
+
+            )
+
+        }
+
+        Spacer(modifier = Modifier.width(10.dp))
+
+        Text(
+
+            text = title,
+
+            color = TextPrimary,
+
+            style = MaterialTheme.typography.bodyMedium,
+
+            fontWeight = FontWeight.Medium
+
+        )
 
     }
 

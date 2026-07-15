@@ -5,7 +5,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,17 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yusuffdllh.smartfinance.ui.theme.*
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.Arrangement
-
 
 @Composable
 fun BalanceCard(
 
-    balance: String = "Rp12.450.000",
+    balance: Long,
 
     growth: String = "12.5%"
 
@@ -33,13 +32,13 @@ fun BalanceCard(
 
         modifier = Modifier.fillMaxWidth(),
 
+        shape = RoundedCornerShape(24.dp),
+
         colors = CardDefaults.cardColors(
 
             containerColor = Surface
 
-        ),
-
-        shape = RoundedCornerShape(24.dp)
+        )
 
     ) {
 
@@ -63,7 +62,7 @@ fun BalanceCard(
 
                 Text(
 
-                    "Total Saldo",
+                    text = "Total Saldo",
 
                     color = TextSecondary,
 
@@ -75,7 +74,7 @@ fun BalanceCard(
 
                 Text(
 
-                    balance,
+                    text = "Rp${formatCurrency(balance)}",
 
                     color = TextPrimary,
 
@@ -100,13 +99,16 @@ fun BalanceCard(
                                 Primary.copy(alpha = .2f),
                                 RoundedCornerShape(12.dp)
                             )
-                            .padding(horizontal = 12.dp, vertical = 8.dp)
+                            .padding(
+                                horizontal = 12.dp,
+                                vertical = 8.dp
+                            )
 
                     ) {
 
                         Text(
 
-                            "▲ $growth",
+                            text = "▲ $growth",
 
                             color = Primary,
 
@@ -120,7 +122,7 @@ fun BalanceCard(
 
                     Text(
 
-                        "dari bulan lalu",
+                        text = "dari bulan lalu",
 
                         color = TextSecondary
 
@@ -148,7 +150,7 @@ fun BalanceCard(
 
                     Icon(
 
-                        Icons.Outlined.Visibility,
+                        imageVector = Icons.Outlined.Visibility,
 
                         contentDescription = null,
 
@@ -166,3 +168,17 @@ fun BalanceCard(
 
 }
 
+private fun formatCurrency(
+
+    value: Long
+
+): String {
+
+    return value
+        .toString()
+        .reversed()
+        .chunked(3)
+        .joinToString(".")
+        .reversed()
+
+}

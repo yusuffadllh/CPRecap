@@ -49,11 +49,19 @@ fun NavGraph() {
         }
 
         composable(Screen.Transaction.route) {
-            TransactionListScreen()
+            TransactionListScreen(
+
+                navController = navController
+
+            )
         }
 
         composable(Screen.AddTransaction.route) {
-            AddTransactionScreen()
+            AddTransactionScreen(
+
+                navController = navController
+
+            )
         }
 
         composable(Screen.Budget.route) {

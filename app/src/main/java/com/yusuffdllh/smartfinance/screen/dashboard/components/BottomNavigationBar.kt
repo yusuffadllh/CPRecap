@@ -1,7 +1,13 @@
 package com.yusuffdllh.smartfinance.screen.dashboard.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -25,6 +31,8 @@ import com.yusuffdllh.smartfinance.ui.theme.TextPrimary
 @Composable
 fun BottomNavigationBar(
 
+    modifier: Modifier = Modifier,
+
     selected: String,
 
     onHomeClick: () -> Unit,
@@ -40,17 +48,35 @@ fun BottomNavigationBar(
 ) {
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
+
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                start = 20.dp,
+                end = 20.dp,
+                bottom = 16.dp
+            ),
+
+        shape = RoundedCornerShape(28.dp),
+
         colors = CardDefaults.cardColors(
             containerColor = Surface
+        ),
+
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 8.dp
         )
+
     ) {
 
         Row(
+
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 12.dp),
+                .padding(
+                    horizontal = 8.dp,
+                    vertical = 12.dp
+                ),
 
             horizontalArrangement = Arrangement.SpaceEvenly,
 
@@ -73,13 +99,17 @@ fun BottomNavigationBar(
             )
 
             Box(
+
                 modifier = Modifier
-                    .size(60.dp)
+                    .size(64.dp)
+                    .offset(y = (-12).dp)
                     .background(
-                        Primary,
-                        CircleShape
+                        color = Primary,
+                        shape = CircleShape
                     ),
+
                 contentAlignment = Alignment.Center
+
             ) {
 
                 IconButton(
@@ -88,7 +118,7 @@ fun BottomNavigationBar(
 
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = null,
+                        contentDescription = "Tambah Transaksi",
                         tint = TextPrimary
                     )
 
