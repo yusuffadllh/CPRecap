@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.DirectionsBus
 import androidx.compose.material.icons.filled.Fastfood
@@ -185,7 +186,7 @@ private fun getCategoryStyle(
             Icons.Default.ShoppingBag to ChartPurple
 
         "Tagihan" ->
-            Icons.Default.ReceiptLong to ChartOrange
+            Icons.AutoMirrored.Filled.ReceiptLong to ChartOrange
 
         "Hiburan" ->
             Icons.Default.Movie to Danger
