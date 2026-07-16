@@ -17,6 +17,8 @@ data class Transaction(
 
     val date: String,
 
+    val month: String,
+
     val note: String = "",
 
     val type: TransactionType

@@ -23,7 +23,6 @@ import com.yusuffdllh.smartfinance.screen.transaction.components.FilterChipRow
 import com.yusuffdllh.smartfinance.screen.transaction.components.MonthHeader
 import com.yusuffdllh.smartfinance.screen.transaction.components.SearchBar
 import com.yusuffdllh.smartfinance.screen.transaction.components.TransactionHeader
-import com.yusuffdllh.smartfinance.utils.formatCurrency
 
 @Composable
 fun TransactionListScreen(
@@ -169,7 +168,7 @@ fun TransactionListScreen(
 
                             date = transaction.date,
 
-                            amount = formatCurrency(transaction.amount),
+                            amount = transaction.amount,
 
                             income = transaction.type == TransactionType.INCOME,
 

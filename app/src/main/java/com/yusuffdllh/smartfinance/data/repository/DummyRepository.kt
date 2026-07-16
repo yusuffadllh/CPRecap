@@ -6,10 +6,10 @@ import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.DirectionsBus
 import androidx.compose.material.icons.filled.Fastfood
 import androidx.compose.material.icons.filled.Movie
-import androidx.compose.material.icons.filled.ReceiptLong
 import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.yusuffdllh.smartfinance.data.model.TransactionType
 
 data class TransactionItemModel(
 
@@ -32,7 +32,7 @@ data class TransactionItemModel(
     val icon: ImageVector
 
 ) {
-    val type: Any
+    val type: TransactionType get() = if (income) TransactionType.INCOME else TransactionType.EXPENSE
 }
 
 object DummyRepository {
