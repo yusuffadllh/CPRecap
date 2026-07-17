@@ -9,17 +9,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.DirectionsBus
-import androidx.compose.material.icons.filled.Fastfood
-import androidx.compose.material.icons.filled.LocalHospital
-import androidx.compose.material.icons.filled.Movie
-import androidx.compose.material.icons.filled.ReceiptLong
-import androidx.compose.material.icons.filled.School
-import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -28,21 +20,13 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.yusuffdllh.smartfinance.ui.theme.*
-
-data class CategoryModel(
-
-    val title: String,
-
-    val icon: ImageVector,
-
-    val color: Color
-
-)
+import com.yusuffdllh.smartfinance.data.repository.DummyCategoryRepository
+import com.yusuffdllh.smartfinance.ui.theme.Background
+import com.yusuffdllh.smartfinance.ui.theme.Primary
+import com.yusuffdllh.smartfinance.ui.theme.Surface
+import com.yusuffdllh.smartfinance.ui.theme.TextPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,51 +42,7 @@ fun CategoryBottomSheet(
 
     val sheetState = rememberModalBottomSheetState()
 
-    val categories = listOf(
-
-        CategoryModel(
-            "Makanan",
-            Icons.Default.Fastfood,
-            Primary
-        ),
-
-        CategoryModel(
-            "Transportasi",
-            Icons.Default.DirectionsBus,
-            ChartBlue
-        ),
-
-        CategoryModel(
-            "Belanja",
-            Icons.Default.ShoppingBag,
-            ChartPurple
-        ),
-
-        CategoryModel(
-            "Tagihan",
-            Icons.Default.ReceiptLong,
-            ChartOrange
-        ),
-
-        CategoryModel(
-            "Hiburan",
-            Icons.Default.Movie,
-            ChartRed
-        ),
-
-        CategoryModel(
-            "Kesehatan",
-            Icons.Default.LocalHospital,
-            Danger
-        ),
-
-        CategoryModel(
-            "Pendidikan",
-            Icons.Default.School,
-            Secondary
-        )
-
-    )
+    val categories = DummyCategoryRepository.categories
 
     ModalBottomSheet(
 
@@ -148,7 +88,7 @@ fun CategoryBottomSheet(
                         .fillMaxWidth()
                         .clickable {
 
-                            onCategorySelected(category.title)
+                            onCategorySelected(category.name)
 
                         },
 
@@ -177,8 +117,11 @@ fun CategoryBottomSheet(
                             modifier = Modifier
                                 .size(46.dp)
                                 .background(
+
                                     category.color.copy(alpha = .15f),
+
                                     CircleShape
+
                                 ),
 
                             contentAlignment = Alignment.Center
@@ -201,7 +144,7 @@ fun CategoryBottomSheet(
 
                         Text(
 
-                            text = category.title,
+                            text = category.name,
 
                             modifier = Modifier.weight(1f),
 
@@ -211,7 +154,7 @@ fun CategoryBottomSheet(
 
                         )
 
-                        if (selectedCategory == category.title) {
+                        if (selectedCategory == category.name) {
 
                             Icon(
 

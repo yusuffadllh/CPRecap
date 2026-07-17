@@ -65,7 +65,7 @@ fun NavGraph() {
         }
 
         composable(Screen.Budget.route) {
-            BudgetScreen()
+            BudgetScreen(navController)
         }
 
         composable(Screen.Analytics.route) {
@@ -78,7 +78,7 @@ fun NavGraph() {
         }
 
         composable(Screen.Profile.route) {
-            ProfileScreen()
+            ProfileScreen(navController)
 
 
         }
