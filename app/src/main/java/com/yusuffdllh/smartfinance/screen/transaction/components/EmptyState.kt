@@ -12,14 +12,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieCompositionSpec.RawRes
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.yusuffdllh.smartfinance.R
+import com.yusuffdllh.smartfinance.ui.theme.SmartFinanceTheme
 import com.yusuffdllh.smartfinance.ui.theme.TextPrimary
 import com.yusuffdllh.smartfinance.ui.theme.TextSecondary
 
@@ -34,11 +37,7 @@ fun EmptyState(
 
     val composition = rememberLottieComposition(
 
-        LottieCompositionSpec.RawRes(
-
-            R.raw.empty_transaction
-
-        )
+        RawRes(R.raw.empty_transaction)
 
     )
 
@@ -100,4 +99,12 @@ fun EmptyState(
 
     }
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun EmptyStatePreview() {
+    SmartFinanceTheme {
+        EmptyState()
+    }
 }

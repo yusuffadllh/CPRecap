@@ -13,7 +13,15 @@ object DummyUserRepository {
 
             username = "Yusuf Fadilah",
 
-            email = "yusuf@email.com"
+            email = "yusuf@email.com",
+
+            phone = "081234567890",
+
+            birthDate = "25 Juli 2004",
+
+            gender = "Laki-laki",
+
+            photo = null
 
         )
 
@@ -23,7 +31,15 @@ object DummyUserRepository {
 
         username: String,
 
-        email: String
+        email: String,
+
+        phone: String,
+
+        birthDate: String,
+
+        gender: String,
+
+        photo: Int? = null
 
     ) {
 
@@ -31,7 +47,15 @@ object DummyUserRepository {
 
             username = username,
 
-            email = email
+            email = email,
+
+            phone = phone,
+
+            birthDate = birthDate,
+
+            gender = gender,
+
+            photo = photo
 
         )
 
