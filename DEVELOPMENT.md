@@ -596,10 +596,8 @@ Phase 4
 
 Phase 5
 
-- OCR
-- Widget
 - Export PDF
-- Export Excel
+
 
 ---
 
