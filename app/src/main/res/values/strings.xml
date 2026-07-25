@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">SmartFinance</string>
+    <string name="app_name">CPRecap</string>
+    <string name="default_web_client_id">916074249411-a4s6966fkfeaepqdm6hjcfkhnq0q1qnf.apps.googleusercontent.com</string>
 </resources>

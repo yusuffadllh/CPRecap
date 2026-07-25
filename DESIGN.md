@@ -210,28 +210,6 @@ Dashboard
 
 ---
 
-# Onboarding
-
-Terdiri dari beberapa halaman.
-
-Menjelaskan fitur utama:
-
-- Dashboard
-- Budget
-- Analytics
-- AI
-- Notification Reader
-
-Button:
-
-Skip
-
-Next
-
-Get Started
-
----
-
 # Login Screen
 
 Authentication hanya menggunakan Google Sign In.

@@ -4,9 +4,9 @@ sealed class Screen(val route: String) {
 
     data object Splash : Screen("splash")
 
-    data object Onboarding : Screen("onboarding")
-
     data object Login : Screen("login")
+
+    data object Register : Screen("register")
 
     data object Dashboard : Screen("dashboard")
 
@@ -20,5 +20,17 @@ sealed class Screen(val route: String) {
 
     data object Profile : Screen("profile")
 
+    data object Account : Screen("account_settings")
+
+    data object Success : Screen("success")
+
     data object Security : Screen("security")
+
+    data object About : Screen("about")
+
+    data object Backup : Screen("backup")
+
+    data object Notification : Screen("notification_settings")
+
+    data object Theme : Screen("theme_settings")
 }
