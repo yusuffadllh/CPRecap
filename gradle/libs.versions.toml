@@ -19,9 +19,13 @@ ksp = "2.0.21-1.0.27"
 hiltNavigationCompose = "1.2.0"
 workManager = "2.10.0"
 gson = "2.14.0"
+playServicesAuthVersion = "21.2.0"
 credentials = "1.6.0"
 googleId = "1.2.0"
 coil = "2.7.0"
+google-api-client = "2.2.0"
+google-services-gmail = "v1-rev20220404-2.0.0"
+play-services-auth = "21.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -60,6 +64,9 @@ androidx-credentials = { group = "androidx.credentials", name = "credentials", v
 androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentials" }
 googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleId" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+gmail-api-client = { group = "com.google.api-client", name = "google-api-client-android", version = "2.2.0" }
+gmail-api-services = { group = "com.google.apis", name = "google-api-services-gmail", version.ref = "google-services-gmail" }
+play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuthVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

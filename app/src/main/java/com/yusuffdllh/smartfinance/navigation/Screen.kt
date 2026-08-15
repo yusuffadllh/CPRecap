@@ -12,9 +12,13 @@ sealed class Screen(val route: String) {
 
     data object Transaction : Screen("transaction")
 
-    data object AddTransaction : Screen("add_transaction")
+    data object AddTransaction : Screen("add_transaction?id={id}") {
+        fun createRoute(id: Long? = null) = if (id != null) "add_transaction?id=$id" else "add_transaction"
+    }
 
     data object Budget : Screen("budget")
+
+    data object ScheduledBill : Screen("scheduled_bill")
 
     data object Analytics : Screen("analytics")
 

@@ -40,6 +40,14 @@ android {
     buildFeatures {
         compose = true
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/DEPENDENCIES"
+            excludes += "META-INF/LICENSE*"
+            excludes += "META-INF/NOTICE*"
+        }
+    }
 }
 
 dependencies {
@@ -92,6 +100,9 @@ dependencies {
 
     implementation("com.airbnb.android:lottie-compose:6.6.7")
     implementation(libs.coil.compose)
+    implementation("com.google.api-client:google-api-client-android:2.2.0")
+    implementation("com.google.apis:google-api-services-gmail:v1-rev20220404-2.0.0")
+    implementation(libs.play.services.auth)
     
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

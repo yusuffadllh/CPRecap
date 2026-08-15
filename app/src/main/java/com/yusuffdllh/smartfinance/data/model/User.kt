@@ -8,5 +8,6 @@ data class User(
     val birthDate: String = "",
     val gender: String = "",
     val photoUrl: String = "",
-    val photo: Int? = null
+    val photo: Int? = null,
+    val isGoogleLinked: Boolean = false
 )

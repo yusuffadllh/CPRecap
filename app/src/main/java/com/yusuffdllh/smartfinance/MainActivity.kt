@@ -6,7 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Surface
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.compose.rememberNavController
 import com.yusuffdllh.smartfinance.navigation.NavGraph
+import com.yusuffdllh.smartfinance.navigation.Screen
 import com.yusuffdllh.smartfinance.ui.theme.SmartFinanceTheme
 import dagger.hilt.android.AndroidEntryPoint
 
