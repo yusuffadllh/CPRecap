@@ -18,8 +18,17 @@ local.properties
 app/google-services.json
 google-services.json
 
+# Release signing secrets - NEVER commit these
+keystore.properties
+*.jks
+*.keystore
+!debug.keystore
+
 # AI assistant working artifacts
 /.artifacts/
+
+# Kotlin build cache
+.kotlin/
 
 # JVM crash logs
 hs_err_pid*.log

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import com.yusuffdllh.smartfinance.utils.CryptoManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -16,7 +17,8 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 
 @Singleton
 class UserPreferences @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val cryptoManager: CryptoManager
 ) {
     private val GEMEINI_API_KEY = stringPreferencesKey("gemini_api_key")
     private val AI_BASE_URL = stringPreferencesKey("ai_base_url")
@@ -42,7 +44,9 @@ class UserPreferences @Inject constructor(
                 throw exception
             }
         }
-        .map { it[GEMEINI_API_KEY] ?: "" }
+        // Stored encrypted; decrypt on read. Legacy plaintext values are
+        // returned as-is by CryptoManager.decrypt for backward compatibility.
+        .map { cryptoManager.decrypt(it[GEMEINI_API_KEY] ?: "") }
 
     val aiBaseUrl: Flow<String> = context.dataStore.data
         .catch { exception ->
@@ -78,7 +82,7 @@ class UserPreferences @Inject constructor(
     val gmailAccountName: Flow<String> = context.dataStore.data.map { it[GMAIL_ACCOUNT_NAME] ?: "" }
 
     suspend fun saveGeminiApiKey(apiKey: String) {
-        context.dataStore.edit { it[GEMEINI_API_KEY] = apiKey }
+        context.dataStore.edit { it[GEMEINI_API_KEY] = cryptoManager.encrypt(apiKey.trim()) }
     }
 
     /**
@@ -88,7 +92,7 @@ class UserPreferences @Inject constructor(
     suspend fun saveAiConfig(baseUrl: String, apiKey: String, model: String) {
         context.dataStore.edit {
             it[AI_BASE_URL] = baseUrl.trim().ifEmpty { DEFAULT_AI_BASE_URL }.trimEnd('/')
-            it[GEMEINI_API_KEY] = apiKey.trim()
+            it[GEMEINI_API_KEY] = cryptoManager.encrypt(apiKey.trim())
             it[AI_MODEL] = model.trim().ifEmpty { DEFAULT_AI_MODEL }
         }
     }
