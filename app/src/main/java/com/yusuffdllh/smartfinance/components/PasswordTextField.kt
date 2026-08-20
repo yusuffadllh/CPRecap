@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -61,12 +62,14 @@ fun PasswordTextField(
         shape = RoundedCornerShape(16.dp),
 
         colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = Surface,
-            unfocusedContainerColor = Surface,
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
             focusedBorderColor = Primary,
             unfocusedBorderColor = Border,
             focusedTextColor = TextPrimary,
             unfocusedTextColor = TextPrimary,
+            focusedLabelColor = Primary,
+            unfocusedLabelColor = TextSecondary,
             cursorColor = Primary
         )
     )

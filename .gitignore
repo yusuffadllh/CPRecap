@@ -13,3 +13,18 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Firebase config (contains project keys) - keep out of public repo
+app/google-services.json
+google-services.json
+
+# AI assistant working artifacts
+/.artifacts/
+
+# JVM crash logs
+hs_err_pid*.log
+
+# IDE local settings
+/.idea/appInsightsSettings.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/**/AndroidProjectSystem.xml

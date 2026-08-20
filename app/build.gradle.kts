@@ -39,6 +39,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     packaging {
         resources {
@@ -82,8 +83,8 @@ dependencies {
     // DataStore
     implementation(libs.datastore.preferences)
 
-    // Gemini
-    implementation(libs.generative.ai)
+    // AI over HTTP (supports custom Base URL)
+    implementation(libs.okhttp)
 
     // Gson
     implementation(libs.google.gson)

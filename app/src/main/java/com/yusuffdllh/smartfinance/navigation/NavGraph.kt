@@ -25,7 +25,6 @@ import com.yusuffdllh.smartfinance.presentation.setting.about.AboutScreen
 import com.yusuffdllh.smartfinance.presentation.setting.backup.BackupScreen
 import com.yusuffdllh.smartfinance.presentation.setting.notification.NotificationScreen
 import com.yusuffdllh.smartfinance.presentation.setting.security.SecurityScreen
-import com.yusuffdllh.smartfinance.presentation.setting.theme.ThemeScreen
 import com.yusuffdllh.smartfinance.presentation.splash.SplashScreen
 import com.yusuffdllh.smartfinance.presentation.success.SuccessScreen
 import com.yusuffdllh.smartfinance.presentation.transaction.TransactionListScreen
@@ -124,8 +123,5 @@ fun NavGraph() {
             NotificationScreen(navController)
         }
 
-        composable(Screen.Theme.route) {
-            ThemeScreen(navController)
-        }
     }
 }

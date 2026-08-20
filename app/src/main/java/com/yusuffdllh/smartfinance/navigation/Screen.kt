@@ -35,6 +35,4 @@ sealed class Screen(val route: String) {
     data object Backup : Screen("backup")
 
     data object Notification : Screen("notification_settings")
-
-    data object Theme : Screen("theme_settings")
 }

@@ -39,6 +39,24 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+
+        <!--
+            Remove the default WorkManager initializer so our custom Hilt-based
+            WorkManager configuration (SmartFinanceApp implements
+            Configuration.Provider with HiltWorkerFactory) is used. Without this,
+            @HiltWorker workers (e.g. GmailSyncWorker) fail to instantiate with
+            NoSuchMethodException because the default factory is applied.
+        -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
     </application>
 
 </manifest>

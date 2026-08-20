@@ -47,9 +47,9 @@ fun AppTextField(
 
         colors = OutlinedTextFieldDefaults.colors(
 
-            focusedContainerColor = Surface,
+            focusedContainerColor = Color.Transparent,
 
-            unfocusedContainerColor = Surface,
+            unfocusedContainerColor = Color.Transparent,
 
             focusedBorderColor = Primary,
 
@@ -58,6 +58,10 @@ fun AppTextField(
             focusedTextColor = TextPrimary,
 
             unfocusedTextColor = TextPrimary,
+
+            focusedLabelColor = Primary,
+
+            unfocusedLabelColor = TextSecondary,
 
             cursorColor = Primary
 
