@@ -251,4 +251,3 @@ app/src/main/java/com/yusuffdllh/smartfinance/
 └── ui.theme/       # Color, Typography, Theme
 ```
 
-</div>
