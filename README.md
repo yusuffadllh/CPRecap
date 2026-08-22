@@ -251,15 +251,8 @@ app/src/main/java/com/yusuffdllh/smartfinance/
 └── ui.theme/       # Color, Typography, Theme
 ```
 
----
 
-## 📄 Lisensi
 
-Belum ditentukan. Tambahkan file `LICENSE` sesuai kebutuhan.
-
-<div align="center">
-
----
 
 Dibuat dengan ❤️ menggunakan Kotlin & Jetpack Compose
 
