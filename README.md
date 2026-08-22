@@ -249,11 +249,6 @@ app/src/main/java/com/yusuffdllh/smartfinance/
 ├── service/        # Notification, AI, Gmail service
 ├── utils/          # Formatter, helper, CryptoManager
 └── ui.theme/       # Color, Typography, Theme
-```
 
-
-
-
-Dibuat dengan ❤️ menggunakan Kotlin & Jetpack Compose
 
 </div>
