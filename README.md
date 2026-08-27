@@ -1,6 +1,6 @@
 <div align="center">
 
-# 💰 SmartFinance
+# 💰 CPRecap
 
 **Aplikasi manajemen keuangan pribadi berbasis Kotlin + Jetpack Compose dengan deteksi transaksi otomatis berbantuan AI.**
 
@@ -9,10 +9,12 @@
 [![UI](https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?logo=jetpackcompose&logoColor=white)](https://developer.android.com/jetpack/compose)
 [![minSdk](https://img.shields.io/badge/minSdk-26-orange)](https://developer.android.com)
 
+<img src="CPRecap.jpeg" alt="Tampilan aplikasi CPRecap" width="100%">
+
 </div>
 
 > [!NOTE]
-> SmartFinance adalah **personal finance**, **bukan** mobile banking. Aplikasi **tidak** melakukan transfer, pembayaran, top up, maupun menyimpan PIN/OTP/CVV/Nomor Kartu.
+> CPRecap adalah **personal finance**, **bukan** mobile banking. Aplikasi **tidak** melakukan transfer, pembayaran, top up, maupun menyimpan PIN/OTP/CVV/Nomor Kartu.
 
 ---
 
@@ -184,7 +186,7 @@ Menggunakan **Gmail Readonly Scope** untuk mencari bukti transaksi (struk/invoic
 
 ## 🔒 Keamanan
 
-SmartFinance menerapkan pertahanan berlapis:
+CPRecap menerapkan pertahanan berlapis:
 
 | Lapisan | Implementasi |
 |---------|--------------|
