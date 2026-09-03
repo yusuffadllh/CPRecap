@@ -37,11 +37,13 @@ class RuleEngine @Inject constructor() {
     )
 
     private val incomeKeywords = listOf(
-        "masuk", "terima", "penerimaan", "kredit", "refund", "salary", "gaji"
+        "dana masuk", "penerimaan", "kredit", "refund", "salary", "gaji", 
+        "terima dana", "terima transfer", "incoming"
     )
 
     private val expenseKeywords = listOf(
-        "kirim", "keluar", "bayar", "purchase", "debit", "pembayaran", "qris", "expense", "payment", "tagihan"
+        "kirim", "keluar", "bayar", "purchase", "debit", "pembayaran", "qris", 
+        "expense", "payment", "tagihan", "transfer ke", "berhasil transfer"
     )
 
     private val transactionKeywords = incomeKeywords + expenseKeywords + listOf("berhasil", "sukses", "idr", "rp", "transfer", "kirim")
@@ -143,13 +145,19 @@ class RuleEngine @Inject constructor() {
         val hasIncome = incomeKeywords.any { lowText.contains(it) }
         val hasExpense = expenseKeywords.any { lowText.contains(it) }
         
+        // Cek kata "terima kasih" agar tidak salah deteksi income
+        val cleanIncome = hasIncome && !lowText.contains("terima kasih")
+        
         return when {
-            hasIncome && !hasExpense -> "INCOME"
-            hasExpense && !hasIncome -> "EXPENSE"
-            lowText.contains("dari") -> "INCOME"
+            // Prioritaskan Expense bila bayar pakai QRIS
+            lowText.contains("qris") || lowText.contains("bayar pakai") -> "EXPENSE"
+            hasExpense && !cleanIncome -> "EXPENSE"
+            cleanIncome && !hasExpense -> "INCOME"
+            lowText.contains("transfer ke") -> "EXPENSE"
+            lowText.contains("dari") && !lowText.contains("terima kasih") -> "INCOME"
             lowText.contains("ke") -> "EXPENSE"
             lowText.contains("untuk") -> "EXPENSE"
-            else -> "EXPENSE"
+            else -> "EXPENSE" // Default fallback to Expense
         }
     }
 
@@ -212,9 +220,9 @@ class RuleEngine @Inject constructor() {
 
     private fun extractMerchant(text: String): String? {
         val patterns = listOf(
-            Pattern.compile("(?i)(?:ke|at|di|untuk|transfer|pembayaran)\\s+([A-Z0-9.\\s]{3,25})"),
-            Pattern.compile("(?i)(?:dari|pengirim)\\s+([A-Z0-9.\\s]{3,25})"),
-            Pattern.compile("(?i)(?:merchant|toko|outlet)\\s+([A-Z0-9.\\s]{3,25})")
+            Pattern.compile("(?i)(?:ke|at|di|untuk|transfer|pembayaran|penerima)\\s+([A-Z0-9.\\s\\-]{3,35})"),
+            Pattern.compile("(?i)(?:dari|pengirim)\\s+([A-Z0-9.\\s\\-]{3,35})"),
+            Pattern.compile("(?i)(?:merchant|toko|outlet)\\s+([A-Z0-9.\\s\\-]{3,35})")
         )
 
         for (p in patterns) {
@@ -223,8 +231,8 @@ class RuleEngine @Inject constructor() {
                 var candidate = m.group(1)?.trim() ?: ""
                 if (candidate.isNotEmpty()) {
                     candidate = candidate.split(
-                        "Rp", "IDR", "berhasil", "sukses", "tanggal", "jam", "\n", "\r", ".", 
-                        "trx", "ref", "m-bca", "mbca", "va", "virtual account", "-"
+                        "Rp", "IDR", "berhasil", "sukses", "tanggal", "jam", "\n", "\r", 
+                        "trx", "ref", "m-bca", "mbca", "va", "virtual account", "sumber"
                     )[0].trim()
                     
                     if (candidate.length >= 3) return candidate

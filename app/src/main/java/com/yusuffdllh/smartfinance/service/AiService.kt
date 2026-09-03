@@ -75,8 +75,10 @@ class AiService @Inject constructor(
                 - Inbound (Income): "Terima dari [Name]" or "Gaji dari [Name]"
                 - General: "Makan di [Merchant]" or "Tagihan [Merchant]"
                 
-                CRITICAL: IGNORE app names (BCA, GoPay, Mandiri, Gmail) and status words (Berhasil, Sukses). 
-                ONLY extract the real destination or source of the money.
+                CRITICAL: IGNORE app names (BCA, GoPay, Mandiri, Gmail), status words (Berhasil, Sukses), and polite words (Terima Kasih). 
+                ONLY extract the real destination or source of the money. 
+                If the email indicates a payment to a merchant via QRIS, Virtual Account, or transfer, it is ALWAYS an EXPENSE (type: "EXPENSE"). 
+                If the text says "Terima kasih sudah bertransaksi" or similar, do NOT classify it as income.
                 
                 Text: "$text"
                 
@@ -96,7 +98,7 @@ class AiService @Inject constructor(
                 - Lainnya: If no other category fits.
                 
                 Output JSON ONLY:
-                {"isTransaction": true, "merchant": "Formatted Human Title", "category": "Category Name from Guide", "confidence": 0.95}
+                {"isTransaction": true, "merchant": "Formatted Human Title", "category": "Category Name from Guide", "type": "EXPENSE or INCOME", "confidence": 0.95}
             """.trimIndent()
             
             val generatedText = callAi(baseUrl, model, apiKey, prompt) ?: return ruleResult
@@ -108,16 +110,16 @@ class AiService @Inject constructor(
             val aiResult = gson.fromJson(rawJson, AiPredictionResponse::class.java)
             val mappedCategory = mapToAppCategory(aiResult.category)
             val finalMerchant = if (aiResult.merchant.isNotBlank() && aiResult.merchant.lowercase() != "unknown") aiResult.merchant else ruleResult.merchant
+            
+            // Allow AI to override type if it is explicitly provided, otherwise fallback to rule engine
+            val finalType = if (aiResult.type.isNotBlank()) aiResult.type else ruleResult.type
 
             PredictionResult(
-                // The rule engine already validated this is a real transaction with a
-                // positive amount; the AI only enriches merchant/category. If the AI
-                // still says it is not a transaction, we honor that as well.
                 isTransaction = aiResult.isTransaction,
                 merchant = finalMerchant,
                 category = mappedCategory,
                 amount = ruleResult.amount,
-                type = ruleResult.type,
+                type = finalType,
                 confidence = aiResult.confidence
             )
         } catch (e: Exception) {
@@ -282,5 +284,6 @@ data class AiPredictionResponse(
     val isTransaction: Boolean,
     val merchant: String,
     val category: String,
+    val type: String = "",
     val confidence: Float
 )
