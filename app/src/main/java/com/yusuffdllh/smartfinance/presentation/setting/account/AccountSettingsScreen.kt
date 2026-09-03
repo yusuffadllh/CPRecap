@@ -1,8 +1,5 @@
 package com.yusuffdllh.smartfinance.presentation.setting.account
 
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -52,11 +49,7 @@ fun AccountSettingsScreen(
     var showGenderPicker by remember { mutableStateOf(false) }
     var showSuccessAnimation by remember { mutableStateOf(false) }
 
-    val photoPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let { viewModel.updateProfile(name, it.toString()) }
-    }
+
 
     LaunchedEffect(user) {
         user?.let {
@@ -163,8 +156,7 @@ fun AccountSettingsScreen(
             ) {
                 user?.let { currentUser ->
                     AccountProfileCard(
-                        user = currentUser,
-                        onChangePhotoClick = if (isEditMode) { { photoPickerLauncher.launch("image/*") } } else { { } }
+                        user = currentUser
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
