@@ -38,7 +38,7 @@ class RuleEngine @Inject constructor() {
 
     private val incomeKeywords = listOf(
         "dana masuk", "penerimaan", "kredit", "refund", "salary", "gaji", 
-        "terima dana", "terima transfer", "incoming"
+        "terima dana", "terima transfer", "incoming", "isi saldo", "top up", "topup", "cash in"
     )
 
     private val expenseKeywords = listOf(
@@ -49,17 +49,17 @@ class RuleEngine @Inject constructor() {
     private val transactionKeywords = incomeKeywords + expenseKeywords + listOf("berhasil", "sukses", "idr", "rp", "transfer", "kirim")
 
     private val promotionKeywords = listOf(
-        "promo", "diskon", "voucher", "menangkan", "hadiah", "yuk", "cek", 
-        "terbatas", "exclusive", "sale", "hemat", "claim", "bonus", "peluang",
+        "promo", "diskon", "voucher", "menangkan", "hadiah", 
+        "terbatas", "exclusive", "sale", "hemat", "claim", "peluang",
         "makan mana", "buruan", "special offer", "mulai dari", "cuma rp", 
-        "kesempatan", "untung", "investasi", "kado", "ajak", "pake", "kode", "nikmati",
+        "kesempatan", "untung", "kado", "ajak", "pake", "kode", "nikmati",
         "discount", "kupon", "cashback", "cash back", "eksklusif", "klaim", "gratis",
         "free", "penawaran", "cuma", "hanya rp", "pakai kode", "kode promo",
         "kode voucher", "flash sale", "big sale", "harbolnas", "serba", "murah",
-        "dapatkan", "poin", "point", "reward", "undian", "giveaway", "spesial",
+        "poin", "point", "reward", "undian", "giveaway", "spesial",
         "special", "jangan lewatkan", "berlaku hingga", "berlaku sampai", "paylater",
         "pinjaman", "limit kartu", "aktifkan sekarang", "daftar sekarang", "download",
-        "unduh", "install", "upgrade", "isi saldo", "kumpulkan", "tukar poin",
+        "unduh", "install", "upgrade", "kumpulkan", "tukar poin",
         "member", "membership", "gratis ongkir", "cicilan"
     )
 
@@ -243,11 +243,20 @@ class RuleEngine @Inject constructor() {
     }
 
     private fun extractAmount(text: String, packageName: String? = null): Long {
+        // Deteksi nilai Rp atau IDR (seperti Rp10.000 atau IDR 10,000)
         val amountPattern = Pattern.compile("(?i)(?:Rp|IDR|Rp\\.|IDR\\.)\\s?([\\d.,]+)")
         val m = amountPattern.matcher(text)
         
         var raw = if (m.find()) m.group(1) ?: "" else ""
 
+        // Jika tidak ada kata "Rp", maka cari angka besar dengan format titik ribuan (misal: 15.000 atau 150.000)
+        if (raw.isEmpty()) {
+            val fallbackPattern = Pattern.compile("\\b(\\d{1,3}(?:\\.\\d{3})+)\\b")
+            val fb = fallbackPattern.matcher(text)
+            if (fb.find()) raw = fb.group(1) ?: ""
+        }
+
+        // Lenient matcher untuk bank yang murni mengirim angka saja untuk topup/transfer
         if (raw.isEmpty() && packageName != null && trustedPackages.contains(packageName)) {
             val lenient = Pattern.compile("\\b([\\d]{4,12})\\b")
             val lm = lenient.matcher(text)
