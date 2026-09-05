@@ -60,7 +60,7 @@ class RuleEngine @Inject constructor() {
         "special", "jangan lewatkan", "berlaku hingga", "berlaku sampai", "paylater",
         "pinjaman", "limit kartu", "aktifkan sekarang", "daftar sekarang", "download",
         "unduh", "install", "upgrade", "kumpulkan", "tukar poin",
-        "member", "membership", "gratis ongkir", "cicilan"
+        "member", "membership", "gratis ongkir", "cicilan", "pesanan", "tahun"
     )
 
     private val failureKeywords = listOf(
@@ -84,7 +84,7 @@ class RuleEngine @Inject constructor() {
      * always confirms that money actually moved. Promotions never contain these.
      */
     private val successMarkers = listOf(
-        "berhasil", "sukses", "success", "telah", "diterima",
+        "berhasil", "sukses", "success", "top up berhasil",
         "terbayar", "terkirim", "dibayar", "pembayaran", "transaksi",
         "transfer", "debet", "debit", "kredit", "penarikan", "setoran",
         "pembelian", "qris", "trx", "ref", "saldo anda",
@@ -250,15 +250,17 @@ class RuleEngine @Inject constructor() {
         var raw = if (m.find()) m.group(1) ?: "" else ""
 
         // Jika tidak ada kata "Rp", maka cari angka besar dengan format titik ribuan (misal: 15.000 atau 150.000)
+        // Harus ada titik ribuan untuk menghindari penangkapan tahun seperti "2026"
         if (raw.isEmpty()) {
             val fallbackPattern = Pattern.compile("\\b(\\d{1,3}(?:\\.\\d{3})+)\\b")
             val fb = fallbackPattern.matcher(text)
             if (fb.find()) raw = fb.group(1) ?: ""
         }
 
-        // Lenient matcher untuk bank yang murni mengirim angka saja untuk topup/transfer
+        // Lenient matcher untuk bank yang murni mengirim angka saja tanpa Rp.
+        // SYARAT KETAT: panjang angka harus minimal 5 digit (minimal 10.000) agar tidak mendeteksi tahun (4 digit misal 2026).
         if (raw.isEmpty() && packageName != null && trustedPackages.contains(packageName)) {
-            val lenient = Pattern.compile("\\b([\\d]{4,12})\\b")
+            val lenient = Pattern.compile("\\b([\\d]{5,12})\\b")
             val lm = lenient.matcher(text)
             if (lm.find()) raw = lm.group(1) ?: ""
         }
