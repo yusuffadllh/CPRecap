@@ -29,8 +29,19 @@ class TransactionRepositoryImpl @Inject constructor(
 
     private val mutex = Mutex()
 
+    private suspend fun isDuplicateTransactionOnly(userId: String, amount: Long, type: String): Boolean {
+        // Shield for real transactions: same amount + same type within 10 minutes.
+        // IMPORTANT: must only count TRANSACTIONS. Counting drafts here made
+        // confirmDraft a no-op (the draft counted as its own duplicate, the
+        // insert was silently skipped, then the draft was deleted -> data loss).
+        val timeLimit = System.currentTimeMillis() - (10 * 60000)
+        return transactionDao.checkRecentByAmountAndType(userId, amount, type, timeLimit) > 0
+    }
+
     private suspend fun isDuplicate(userId: String, amount: Long, type: String): Boolean {
-        // Simple, reliable shield: same amount + same type within 10 minutes
+        // Used when creating a DRAFT: block if an identical transaction OR draft
+        // already exists (e.g. the same payment detected via both notification
+        // and email sync within a short window).
         val timeLimit = System.currentTimeMillis() - (10 * 60000)
         val txCount = transactionDao.checkRecentByAmountAndType(userId, amount, type, timeLimit)
         val draftCount = draftDao.checkRecentByAmountAndType(userId, amount, type, timeLimit)
@@ -72,7 +83,7 @@ class TransactionRepositoryImpl @Inject constructor(
                 // For updates (edits), the amount/type may legitimately be unchanged,
                 // so the duplicate shield must NOT block the update.
                 val isUpdate = transaction.id != 0L
-                if (!isUpdate && isDuplicate(transaction.userId, transaction.amount, transaction.type)) {
+                if (!isUpdate && isDuplicateTransactionOnly(transaction.userId, transaction.amount, transaction.type)) {
                     return@withLock Result.success(Unit)
                 }
                 val newId = transactionDao.insertTransaction(transaction)
